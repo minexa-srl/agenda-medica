@@ -1,18 +1,26 @@
-import { AuthConfig } from 'angular-oauth2-oidc'
-
-import { environment } from 'src/environments/environment'
+import { AuthConfig } from 'angular-oauth2-oidc';
+import { environment } from 'src/environments/environment';
 
 export const authConfig: AuthConfig = {
-  issuer: environment.issuer,
+  // ⚡ Endpoints fijos para evitar CORS
+  loginUrl: 'https://auth-desarrollo.cns.gob.bo/oauth2/authorize',
+  tokenEndpoint: 'https://auth-desarrollo.cns.gob.bo/oauth2/token',
+  userinfoEndpoint: 'https://auth-desarrollo.cns.gob.bo/oauth2/userinfo',
+  logoutUrl: 'https://auth-desarrollo.cns.gob.bo/oauth2/logout',
+
   clientId: environment.clientId,
   responseType: environment.responseType,
   redirectUri: `${window.location.origin}${environment.redirectUri}`,
-  silentRefreshRedirectUri: `${window.location.origin}${environment.silentRefreshRedirectUri}`,
-  scope: environment.scope,
   postLogoutRedirectUri: `${window.location.origin}${environment.postLogoutRedirectUri}`,
-  sessionChecksEnabled: environment.sessionChecksEnabled,
+  scope: environment.scope,
+
+  // ⚡ Reemplazo correcto según versión actual
+  strictDiscoveryDocumentValidation: false,
+
+  // Opcionales
   showDebugInformation: environment.showDebugInformation,
   clearHashAfterLogin: environment.clearHashAfterLogin,
+  sessionChecksEnabled: environment.sessionChecksEnabled,
   nonceStateSeparator: environment.nonceStateSeparator,
   useSilentRefresh: environment.useSilentRefresh,
-}
+};

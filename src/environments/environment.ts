@@ -1,32 +1,31 @@
 export const environment = {
-  //#region Configuracion Proyecto
-  production: true, // Cambiar a true en producción
-  debug: false, // Desactívalo en producción para evitar sobrecarga de la consola
+  //#region Configuración del Proyecto
+  production: true,
+  debug: false,
   api: 'https://api-desarrollo.cns.gob.bo',
   apiVersion: 'v1',
   apiAuth: 'https://api-desarrollo.cns.gob.bo/auth',
-  staticMenu: false, // Si es solo para desarrollo, asegúrate de desactivar esta funcionalidad en producción
+  staticMenu: false,
   //#endregion
-  //#region Configuracion APIS
+
+  //#region Configuración de APIs
   urlApi: 'https://api-desarrollo.cns.gob.bo/erpcns/v1',
-  // urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/Vigencia/v1', (FALLA)
-  urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/api/vg/v1', // (FUNCIONA)
+  urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/api/vg/v1',
   urlApiCitasMedicas: 'https://api-desarrollo.cns.gob.bo/CitasMedicas/v1',
-  citaMedicaApi: 'http://localhost:5002',
+  citaMedicaApi: 'http://localhost:5002', // solo desarrollo
   //#endregion
+
   //#region Configuración de OAuth
-  issuer: 'https://auth-desarrollo.cns.gob.bo',
   clientId: 'test_dev',
   responseType: 'code',
   redirectUri: '/auth-callback',
-  silentRefreshRedirectUri: '/silent-refresh.html',
-  scope: 'openid profile offline_access API_Example api.read adminClient_api',
   postLogoutRedirectUri: '/login',
-  useSilentRefresh: false,
-  sessionChecksEnabled: false,
+  scope: 'openid profile offline_access API_Example api.read adminClient_api',
   showDebugInformation: false,
   clearHashAfterLogin: false,
+  sessionChecksEnabled: false,
   nonceStateSeparator: 'semicolon',
+  useSilentRefresh: false,
   theme: 'layout-cns-nacional',
   //#endregion
-}
+};
