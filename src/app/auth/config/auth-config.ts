@@ -2,7 +2,6 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 import { environment } from 'src/environments/environment';
 
 export const authConfig: AuthConfig = {
-  // Endpoints fijos
   loginUrl: 'https://auth-desarrollo.cns.gob.bo/oauth2/authorize',
   tokenEndpoint: 'https://auth-desarrollo.cns.gob.bo/oauth2/token',
   userinfoEndpoint: 'https://auth-desarrollo.cns.gob.bo/oauth2/userinfo',
@@ -10,15 +9,12 @@ export const authConfig: AuthConfig = {
 
   clientId: environment.clientId,
   responseType: environment.responseType,
-  redirectUri: `${window.location.origin}${environment.redirectUri}`,
-  silentRefreshRedirectUri: `${window.location.origin}${environment.silentRefreshRedirectUri}`,
+  redirectUri: environment.redirectUri, // apunta al callback permitido
+  silentRefreshRedirectUri: environment.silentRefreshRedirectUri,
   postLogoutRedirectUri: `${window.location.origin}${environment.postLogoutRedirectUri}`,
   scope: environment.scope,
 
-  // Evita validación estricta de discovery document
   strictDiscoveryDocumentValidation: false,
-
-  // Opcionales
   showDebugInformation: environment.showDebugInformation,
   clearHashAfterLogin: environment.clearHashAfterLogin,
   sessionChecksEnabled: environment.sessionChecksEnabled,

@@ -11,13 +11,18 @@ export const environment = {
   urlApiCitasMedicas: 'https://api-desarrollo.cns.gob.bo/CitasMedicas/v1',
   citaMedicaApi: 'http://localhost:5002', // solo desarrollo
 
+  // 🔑 Configuración OAuth2
   issuer: 'https://auth-desarrollo.cns.gob.bo',
   clientId: 'test_dev',
   responseType: 'code',
-  redirectUri: '/auth-callback',
-  silentRefreshRedirectUri: '/silent-refresh.html',
+
+  // ⚡ Aquí usamos un redirectUri que ya es válido en el auth
+  redirectUri: 'https://auth-desarrollo.cns.gob.bo/oauth2/callback',
+  silentRefreshRedirectUri: 'https://auth-desarrollo.cns.gob.bo/oauth2/callback',
+
   postLogoutRedirectUri: '/login',
   scope: 'openid profile offline_access API_Example api.read adminClient_api',
+
   useSilentRefresh: false,
   sessionChecksEnabled: false,
   showDebugInformation: false,
