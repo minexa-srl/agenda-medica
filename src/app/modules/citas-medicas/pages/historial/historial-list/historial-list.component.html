@@ -1,0 +1,117 @@
+<!-- VIEW HISTORIAL-LIST
+========================================= -->
+<!-- HEADER -->
+<p class="mt-0 card-title">Historial de Atenciones</p>
+<div class="card" *ngIf="asegurado">
+    <div class="grid flex justify-content-center">
+        <div class="col-12 lg:col-10">
+
+            <!-- REGIONAL -->
+            <div class="grid field">
+                <div class="col-12 lg:col-4 lg:text-right pt-2">
+                    <label for="regional">Regional:</label>
+                </div>
+                <div class="col-12 lg:col-6">
+                    <input [disabled]="true" type="text" pInputText id="regional" [(ngModel)]="asegurado.ubicacion"
+                        class="w-full" />
+
+                </div>
+            </div>
+
+            <!-- CENTRO MÉDICO -->
+            <div class="grid field">
+                <div class="col-12 lg:col-4 lg:text-right pt-2">
+                    <label for="centroMedico">Centro Médico:</label>
+                </div>
+                <div class="col-12 lg:col-6">
+                    <input [disabled]="true" type="text" pInputText id="centroMedico"
+                        [(ngModel)]="asegurado.centroMedico" class="w-full" />
+                </div>
+            </div>
+
+            <!-- ASEGURADO -->
+            <div class="grid field">
+                <div class="col-12 lg:col-4 lg:text-right pt-2">
+                    <label for="asegurado">Asegurado Titular:</label>
+                </div>
+                <div class="col-12 lg:col-6">
+                    <input [disabled]="true" type="text" pInputText id="asegurado" [(ngModel)]="asegurado.titular"
+                        class="w-full" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-0">
+
+    <!-- BODY -->
+    <p-table #dt [value]="reservas"
+        [globalFilterFields]="['fecha','regional.nombre','sucursal.nombre','mineral.abreviatura','codigo','entradaPesoNeto','salidaPesoNeto','saldoPesoNeto']"
+        [tableStyle]="{ 'min-width': '600px' }" [rowHover]="true" dataKey="id" [styleClass]="'customTable'">
+
+        <!-- TABLE BUTTONS -->
+        <ng-template pTemplate="caption">
+            <div class="grid">
+                <div class="col-12 md:col-8 text-left">
+                    <h3 class="prefijoRow pt-2">
+                        Detalle de Citas Médicas
+                    </h3>
+                </div>
+                <div class="col-12 md:col-4 text-right">
+                    <!-- BUSCAR -->
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Buscar..." class="w-full" />
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- TABLE HEADER -->
+        <ng-template pTemplate="header" class="headerTable">
+            <tr>
+                <th pSortableColumn="fecha" style="width:15%">
+                    FECHA
+                </th>
+                <th pSortableColumn="fecha" style="width:40%">
+                    PACIENTE
+                </th>
+                <th pSortableColumn="fecha" style="width:20%">
+                    CITA MÉDICA
+                </th>
+                <th pSortableColumn="fecha" style="width:25%">
+                    OPCIONES
+                </th>
+            </tr>
+        </ng-template>
+
+        <!-- TABLE BODY -->
+        <ng-template pTemplate="body" let-reserva>
+            <tr>
+                <td>
+                    <h3 class="prefijoRow">{{ reserva.fechaReserva |date:'dd/MM/yyyy' }} </h3>
+                </td>
+                <td>
+                    <span class="prefijoRow">Paciente: </span>{{ reserva.asegurado.nombres}} {{
+                    reserva.asegurado.paterno}}<br>
+                    <span class="prefijoRow">Matricula: </span>{{ reserva.asegurado.matricula}}
+                </td>
+                <td>
+                    <span class="prefijoRow">Ficha: </span>{{ reserva.hora.numero}} <br>
+                    <span class="prefijoRow">Hora: </span>{{ reserva.hora.inicioDetalle}} - {{
+                    reserva.hora.finDetalle}}<br>
+                    <span class="prefijoRow">Estado: </span> {{ reserva.estadoReserva.descripcion}}
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-list" label="Detalle" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="primary" (click)="showDetail(reserva)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<hr>
+
+<!-- FOOTER -->
+<div class="card-footer">
+    <app-historial-detail></app-historial-detail>
+    <!-- NOTIFICACIÓN -->
+    <p-toast />
+</div>

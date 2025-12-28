@@ -1,0 +1,12 @@
+.help-item {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+.help-item:hover {
+  font-weight: bold;
+}

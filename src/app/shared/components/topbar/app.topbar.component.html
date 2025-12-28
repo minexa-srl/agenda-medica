@@ -1,0 +1,32 @@
+<div class="layout-topbar">
+  <a class="layout-topbar-logo" routerLink="">
+    <img src="assets/images/logo.png" alt="logo" />
+    <span>Agenda Médica</span>
+  </a>
+
+  <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+    (click)="layoutService.showProfileSidebar()">
+    <i class="pi pi-ellipsis-v"></i>
+  </button>
+
+  <div #topbarmenu class="layout-topbar-menu"
+    [ngClass]="{ 'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible }">
+    <div class="flex flex-column" style="align-items: center; align-self: center">
+      <span style="color: white">{{ user?.name || 'Usuario' }}</span>
+      <span style="color: white">{{ user?.username || 'Nombre de usuario' }}</span>
+    </div>
+
+    <button class="p-link layout-topbar-button" [routerLink]="'/asegurado/perfil'">
+      <i class="pi pi-user"></i>
+      <span>Perfil</span>
+    </button>
+    <button class="p-link layout-topbar-button" (click)="app.logout()">
+      <i class="pi pi-sign-out"></i>
+      <span>Cerrar Sesión</span>
+    </button>
+  </div>
+</div>

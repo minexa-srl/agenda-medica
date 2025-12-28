@@ -1,0 +1,31 @@
+<!-- VIEW CONFIRMATION-DELETE
+================================== -->
+<p-dialog [(visible)]="state" closeOnEscape="true" closable="true" [modal]="true" [showHeader]="false" [contentStyle]="{
+    'border-radius': '20px','margin':'20px'}" styleClass="p-fluid dialog-responsive custom-header">
+
+    <ng-template pTemplate="content">
+        <div class="card shadow-3 mt-4 text-center">
+            <h3 class="prefijoRow">{{msg.titulo}}</h3>
+            <hr>
+            <div class="grid p-3">
+                <div class="col-12 md:col-4">
+                    <div class="text-center">
+                        <i class="{{msg.icono}}" style="font-size: 50px; color: rgb(242, 121, 121);"></i>
+                    </div>
+                </div>
+                <div class="col-12 md:col-8 text-center md:text-left">
+                    <h6>
+                        {{msg.contenido}}
+                    </h6>
+                </div>
+            </div>
+            <hr>
+            <div class="flex justify-content-center gap-2">
+                <p-button pRipple label="Aceptar" icon="pi pi-check" [text]="true" [raised]="true" severity="primary"
+                    (click)="aceptar()" />
+                <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" [raised]="true" severity="warning"
+                    (click)="cancel()" />
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

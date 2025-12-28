@@ -1,0 +1,85 @@
+<!-- VIEW CENTRO-MEDICO-LIST
+========================================= -->
+<!-- HEADER -->
+<p class="mt-0 card-title">Centros Médicos</p>
+<div class="card">
+    <div class="grid flex justify-content-center">
+        <div class="col-12 lg:col-10">
+
+            <!-- REGIONAL -->
+            <div class="grid field">
+                <div class="col-12 lg:col-4 lg:text-right pt-2">
+                    <label for="regional">Regional:</label>
+                </div>
+                <div class="col-12 lg:col-6">
+                    <p-dropdown [options]="regionales" placeholder="Todos" (onChange)="filter($event.value)"
+                        [filter]="true" optionLabel="descripcion" optionValue="id" [showClear]="true"
+                        (onClear)="clearFilter()">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-0">
+
+    <!-- BODY -->
+    <p-table #dt [value]="centrosMedicos" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        [globalFilterFields]="['descripcion','direccion','']" [tableStyle]="{ 'min-width': '65rem' }" [rowHover]="true"
+        dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+
+        <!-- TABLE BUTTONS -->
+        <ng-template pTemplate="caption">
+            <div class="grid">
+                <div class="col-12 md:col-8 text-left">
+                    <h3 class="prefijoRow pt-2">
+                        Detalle de Centros Médicos
+                    </h3>
+                </div>
+                <div class="col-12 md:col-4 text-right">
+                    <!-- BUSCAR -->
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Buscar..." class="w-full" />
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- TABLE HEADER -->
+        <ng-template pTemplate="header" class="headerTable">
+            <tr>
+                <th pSortableColumn="descripcion" style="width:60%">
+                    CENTRO MÉDICO <p-sortIcon field="descripcion" />
+                </th>
+                <th class="text-center" pSortableColumn="nivelAtencionId" style="width:20%">
+                    NIVEL DE ATENCIÓN <p-sortIcon field="nivelAtencionId" />
+                </th>
+                <th style="width:20%">
+                    OPCIONES
+                </th>
+            </tr>
+        </ng-template>
+
+        <!-- TABLE BODY -->
+        <ng-template pTemplate="body" let-centroMedico>
+            <tr>
+                <td>
+                    <span class="prefijoRow">Nombre: </span>{{ centroMedico.descripcion}} <br>
+                    <span class="prefijoRow">Dirección: </span>{{ centroMedico.direccion}}
+                </td>
+                <td class="text-center">
+                    {{ getNivelAtencion(centroMedico.nivelAtencionId)}}
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-list" label="Detalle" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="primary" (click)="showDetail(centroMedico)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<hr>
+
+<!-- FOOTER -->
+<div class="card-footer">
+    <app-centro-medico-detail></app-centro-medico-detail>
+</div>

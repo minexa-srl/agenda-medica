@@ -1,0 +1,38 @@
+<!-- VIEW CENTRO-MEDICO-DETAIL
+======================================= -->
+<p-dialog [(visible)]="state" closeOnEscape="true" closable="true" header="Detalle de Centro Médico" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw'}" styleClass="p-fluid dialog-responsive custom-header">
+
+    <!-- BODY -->
+    <ng-template pTemplate="content">
+        <div class="card shadow-3 mt-3">
+            <div class="grid">
+                <div class="col-4 text-right">
+                    <span class="prefijoRow">Centro Médico: </span>
+                </div>
+                <div class="col-8">
+                    {{centroMedico.descripcion}}
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-4 text-right">
+                    <span class="prefijoRow">Dirección: </span>
+                </div>
+                <div class="col-8">
+                    {{centroMedico.direccion}}
+                </div>
+            </div>
+            <hr>
+            <div id="map" style="height: 400px; width: 100%;"></div>
+        </div>
+    </ng-template>
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+        <hr>
+        <div class="custom-footer">
+            <p-button pRipple label="Cerrar" icon="pi pi-times" [text]="true" [raised]="true" severity="warning"
+                (click)="close()" />
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,65 @@
+<!-- VIEW MENU-SERVICES
+=============================================== -->
+<!-- HEADER -->
+<p class="mt-0" class="card-title">Servicios Disponibles</p>
+
+<!-- BODY -->
+<div class="card">
+  <div class="formgrid grid">
+
+    <!-- CITAS MÉDICAS -->
+    <div class="field col-12 md:col-4">
+      <p-card class="card-click" (click)="showMenuConsultorios()" header="Citas Medicas"
+        subheader="Registro de nuevas citas medicas" styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <div class="content-center">
+            <img alt="Card" src="assets/images/services/cita-medica.png" style="border-radius: 10px 10px 0 0;" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-button label="Ingresar" icon="pi pi-check" styleClass="w-full" (onClick)="showMenuConsultorios()">
+          </p-button>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <!-- RESERVAS PENDIENTES -->
+    <div class="field col-12 md:col-4">
+      <p-card class="card-click" (click)="showCitasPendientes()" header="Reservas Realizadas"
+        subheader="Reservas de citas médicas pendientes" styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <div class="content-center">
+            <img alt="Card" src="assets/images/services/programacion.png" style="border-radius: 10px 10px 0 0;" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-button label="Ingresar" icon="pi pi-check" styleClass="w-full" (onClick)="showCitasPendientes()">
+          </p-button>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="field col-12 md:col-4">
+      <p-card class="card-click" (click)="showHistorialCitas()" header="Historial"
+        subheader="Historial de citas médicas" styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <div class="content-center">
+            <img alt="Card" src="assets/images/services/historial.png" style="border-radius: 10px 10px 0 0;" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-button label="Ingresar" icon="pi pi-check" styleClass="w-full" (onClick)="showHistorialCitas()">
+          </p-button>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="card-footer">
+  <app-menu-consultorio (response)="showCreateCita($event)"></app-menu-consultorio>
+  <app-reserva-form></app-reserva-form>
+  <app-alert></app-alert>
+</div>

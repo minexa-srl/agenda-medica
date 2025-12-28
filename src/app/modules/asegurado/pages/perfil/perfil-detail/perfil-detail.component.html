@@ -1,0 +1,172 @@
+<!-- VIEW PERFIL
+=============================================== -->
+<div class="grid">
+  <div class="col-9">
+    <p class="mt-0 card-title">Perfil</p>
+  </div>
+</div>
+<div class="card">
+
+  <!-- ASEGURADO -->
+  <p class="mt-0" class="card-title">Asegurado</p>
+  <div class="card">
+    <div class="grid" *ngIf="asegurado">
+      <div class="col-12 sm:col-12 md:col-12 lg:col-4 content-center">
+        <img cl [src]="img" alt="Foto Asegurado" onerror="this.src='assets/layout/images/user.png'" />
+      </div>
+      <div class="col-12 sm:col-6 md:col-6 lg:col-4">
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-user lbl-icon"></i>
+          <span class="lbl-field"> Nombres:</span>
+          <p class="lbl-value">
+            {{ asegurado.nombres }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-user lbl-icon"></i>
+          <span class="lbl-field"> Paterno:</span>
+          <p class="lbl-value">
+            {{ asegurado.paterno }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-user lbl-icon"></i>
+          <span class="lbl-field"> Materno:</span>
+          <p class="lbl-value">
+            {{ asegurado.materno }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-id-card lbl-icon"></i>
+          <span class="lbl-field"> Cédula de Identidad:</span>
+          <p class="lbl-value">
+            {{ asegurado.documentoIdentidad }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-calendar lbl-icon"></i>
+          <span class="lbl-field"> Fecha Nacimiento:</span>
+          <p class="lbl-value">
+            {{ asegurado.fechaNacimiento | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+      </div>
+      <div class="col-12 sm:col-6 md:col-6 lg:col-4">
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-send lbl-icon"></i>
+          <span class="lbl-field"> Regional:</span>
+          <p class="lbl-value">
+            {{ asegurado.ubicacion }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-id-card lbl-icon"></i>
+          <span class="lbl-field"> Código o Matrícula:</span>
+          <p class="lbl-value">
+            {{ asegurado.matricula }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-check-square lbl-icon"></i>
+          <span class="lbl-field"> Estado Afiliación</span>
+          <p class="lbl-value">
+            {{ asegurado.estadoAsegurado }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-shield lbl-icon"></i>
+          <span class="lbl-field"> Tipo Seguro:</span>
+          <p class="lbl-value">
+            {{ asegurado.tipoSeguro }}
+          </p>
+        </div>
+        <div class="media mb-4 mb-xl-5">
+          <i class="pi pi-at lbl-icon"></i>
+          <span class="lbl-field"> Email</span>
+          <p class="lbl-value">
+            {{ asegurado.emailPersona }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" *ngIf="asegurado">
+    <!-- EMPRESA -->
+    <div class="col-12 md:col-6 lg:col-6">
+      <p class="mt-0" class="card-title">Empresa</p>
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 md:col-12 lg:col-6">
+            <i class="pi pi-briefcase lbl-icon"></i>
+            <span class="lbl-field"> Razón Social</span>
+            <p class="lbl-value">
+              {{ asegurado.razonSocial }}
+            </p>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-6">
+            <i class="pi pi-hashtag lbl-icon"></i>
+            <span class="lbl-field"> Número Patronal:</span>
+            <p class="lbl-value">
+              {{ asegurado.nroPatronal }}
+            </p>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-6">
+            <i class="pi pi-check-square lbl-icon"></i>
+            <span class="lbl-field"> Estado Aporte:</span>
+            <p *ngIf="asegurado.estadoAporte === 'Habilitado'; else loggedOut" class="lbl-value">
+              {{ asegurado.estadoAporte }}
+            </p>
+            <ng-template #loggedOut>
+              <p>
+                <p-button pButton type="button" label="{{ asegurado.estadoAporte }}"
+                  class="p-button-text p-button-danger p-button" (click)="displayAlerta()"></p-button>
+              </p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTRO MÉDICO -->
+    <div class="col-12 md:col-6 lg:col-6" *ngIf="consultorio">
+      <p class="mt-0" class="card-title">Centro Médico</p>
+      <div class="card">
+        <div class="grid">
+          <div class="col-12" *ngIf="adscripcionTemporal">
+            <span style="color: red">Su adscripción requiere validación por vigencia de derechos</span>
+          </div>
+          <div class="col-12 md:col-12 lg:col-12">
+            <i class="pi pi-building lbl-icon"></i>
+            <span class="lbl-field"> Centro Médico</span>
+            <p class="lbl-value">
+              {{ consultorio.centroMedico }}
+            </p>
+          </div>
+          <div class="col-12 md:col-12 lg:col-12">
+            <i class="pi pi-slack lbl-icon"></i>
+            <span class="lbl-field"> Consultorio</span>
+            <p class="lbl-value" *ngIf="consultorio">
+              {{ consultorio.consultorio }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast position="top-center" key="alerta" (onClose)="onRejectAlerta()" [baseZIndex]="10000" class="p-toast">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column align-items-start" style="flex: 1">
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold text-900"> Alerta </span>
+      </div>
+      <div class="font-medium text-lg my-3 text-900" style="text-align: justify">
+        {{ message.summary }}
+      </div>
+      <p-button size="small" label="Aceptar" (click)="onConfirmAlerta()" />
+    </div>
+  </ng-template>
+</p-toast>

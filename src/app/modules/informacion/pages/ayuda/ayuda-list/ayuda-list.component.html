@@ -1,0 +1,32 @@
+<!-- VIEW AYUDA-LIST
+========================================= -->
+<!-- HEADER -->
+<p class="mt-0 card-title">Guía de Uso</p>
+<div class="card" style="min-height: 70vh;">
+    <button type="button" class="help-item" (click)="showDetail(1)">
+        <i class="pi pi-check-circle prefijoRow"></i>
+        Cómo registrar una Cita Médica..?
+    </button>
+
+    <button type="button" class="help-item" (click)="showDetail(2)">
+        <i class="pi pi-check-circle prefijoRow"></i>
+        Cómo Anular una Cita Médica registrada..?
+    </button>
+
+    <button type="button" class="help-item" (click)="showDetail(3)">
+        <i class="pi pi-check-circle prefijoRow"></i>
+        Cuántas fichas en Línea puedo sacar a la vez..?
+    </button>
+
+    <button type="button" class="help-item" (click)="showDetail(4)">
+        <i class="pi pi-check-circle prefijoRow"></i>
+        Si ya tengo una Cita en Línea, también puedo sacar una cita por ventanilla ?
+    </button>
+
+</div>
+<hr>
+
+<!-- FOOTER -->
+<div class="card-footer">
+    <app-ayuda-detail></app-ayuda-detail>
+</div>

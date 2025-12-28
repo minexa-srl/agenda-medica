@@ -1,0 +1,173 @@
+<div *ngIf="noAfi">
+  <p-messages severity="info">
+    <ng-template pTemplate>
+      <span class="custom-message">
+        <p></p>
+        <h3 style="color: #ee7700">Aviso</h3>
+        <p style="font-size: 1.5em; color: black">
+          Usted no figura como asegurado de la Caja Nacional de Salud, para regularizar su estado de
+          afiliación, debe apersonarse por las Oficinas de Afiliación.
+        </p>
+        <p style="font-size: 1.5em; color: black">
+          Para más información llame al número 2333857 Afiliación Nacional.
+        </p>
+        <p style="font-size: 1.5em; color: black">
+          Para obtener los requisitos de Afiliacion haga un Clic en
+          <a href="https://www.cns.gob.bo/Site/trabajador" target="_blank">"Requisitos"</a>
+        </p>
+      </span>
+    </ng-template>
+  </p-messages>
+</div>
+<div *ngIf="!noAfi">
+  <div class="grid">
+    <div class="col-9">
+      <p class="mt-0 card-title">Beneficiarios</p>
+    </div>
+    <div class="col-3 content-right"></div>
+  </div>
+  <div class="card-container mb-4">
+    <div class="relative border-round p-4 font-bold text-gray-900">
+      <div class="grid stickyMenu">
+        <div class="col">
+          <p-menubar [model]="menuTable"> </p-menubar>
+        </div>
+      </div>
+      <div class="content-section implementation form-card">
+        <div class="grid p-mt-1">
+          <div class="col-12">
+            <div class="card">
+              <p-table #grid [value]="beneficiariosArray" [(selection)]="selectedItem" selectionMode="single"
+                (onRowSelect)="onRowSelect()" (onRowUnselect)="onRowUnselect()" styleClass="p-datatable-striped"
+                paginator="true" [rows]="rows" (onPage)="paginate($event)">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-left">Matrícula</th>
+                    <th class="text-left">Documento Identidad</th>
+                    <th class="text-left">Primer Apellido</th>
+                    <th class="text-left">Segundo Apellido</th>
+                    <th class="text-left">Nombres</th>
+                    <th class="text-left">Parentesco</th>
+                    <th class="text-left">Afiliacion</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr [pSelectableRow]="item">
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Matrícula</b></span>{{ item.matricula }}
+                    </td>
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Documento Identidad</b>{{ item.documentoIdentidad }}</span>
+                    </td>
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Primer Apellido</b></span>{{ item.paterno }}
+                    </td>
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Segundo Apellido</b></span>{{ item.materno }}
+                    </td>
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Nombres</b></span>{{ item.nombres }}
+                    </td>
+                    <td class="text-left">
+                      <span class="p-column-title"><b>Parentesco</b></span>{{ item.parentesco }}
+                    </td>
+                    <td class="text-center">
+                      <span class="p-column-title"><b>Afiliación</b></span>
+                      <span class="customer-badge {{
+                          item.parametroEstadoId === '1' ? 'green' : 'red'
+                        }}">
+                        {{ getEstadoAfiliacion(item.parametroEstadoId) }}
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="regularizaciones" class="card-title">Regularizaciones</div>
+        <div *ngIf="regularizaciones" class="grid p-mt-1">
+          <div class="col-12">
+            <div class="card">
+              <p-table #grid [value]="regularizacionesArray" [(selection)]="selectedItemRegularizacion"
+                styleClass="p-datatable-striped" selectionMode="single" paginator="true" [rows]="rows">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Documento Identidad</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Nombres</th>
+                    <th>Parentesco</th>
+                    <th>Tipo Modificación</th>
+                    <th>Estado</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr [pSelectableRow]="item">
+                    <td>
+                      <span class="p-column-title"><b>Documento Identidad</b></span>
+                      {{ item.documentoIdentidad }} {{ item.extension }}
+                    </td>
+                    <td>
+                      <span class="p-column-title"><b>Primer Apellido</b></span>{{ item.primerApellido }}
+                    </td>
+                    <td>
+                      <span class="p-column-title"><b>Segundo Apellido</b></span>{{ item.segundoApellido }}
+                    </td>
+                    <td>
+                      <span class="p-column-title"><b>Nombres</b></span>{{ item.nombres }}
+                    </td>
+                    <td>
+                      <span class="p-column-title"><b>Parentesco</b></span>{{ item.descripcionParentesco }}
+                    </td>
+                    <td class="text-center">
+                      <span class="p-column-title"><b>Tipo Modificación</b></span>
+                      <span class="customer-badge {{ getColorTipoModificacion(item.estado) }}">
+                        {{ getTipoModificacion(item.tipoModificacion) }}
+                      </span>
+                      <br />
+                      <span style="font-size: 0.7em">{{ item.datos }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span class="p-column-title"><b>Afiliación</b></span>
+                      <span class="customer-badge {{ getColorEstado(item.estado) }}">
+                        {{ getEstado(item.estado) }}
+                      </span>
+                    </td>
+                    <span class="p-column-title">
+                      <div class="rowspan"></div>
+                    </span>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [(visible)]="openForm" [breakpoints]="{ '960px': '75vw', '640px': '100vw' }"
+  [style]="{ width: '50vw', height: 'auto' }" header="Regularización de Beneficiarios" (onHide)="closeForm()"
+  [draggable]="false" [resizable]="false">
+  <br />
+  <app-beneficiario-form [asegurado]="asegurado" (Closed)="handleCloseForm()"></app-beneficiario-form>
+</p-dialog>
+<p-dialog header="Aviso Importante" [(visible)]="openFormDeclaracion" [modal]="true" [style]="{ width: '50vw' }"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <br />
+  <app-declaracion-form [asegurado]="asegurado" (Closed)="handleCloseFormDeclaracion()"></app-declaracion-form>
+</p-dialog>
+<p-toast position="top-center" key="msj-info" (onClose)="onRejectInfo()" [baseZIndex]="10000" class="p-toast">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column align-items-start" style="flex: 1">
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold text-900"> {{ tituloMensaje }} </span>
+      </div>
+      <div class="font-medium text-lg my-3 text-900" style="text-align: justify">
+        {{ message.summary }}
+      </div>
+      <p-button size="small" label="Aceptar" (click)="onConfirmInfo()" />
+    </div>
+  </ng-template>
+</p-toast>

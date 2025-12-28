@@ -1,0 +1,47 @@
+<!-- VIEW HISTORIAL-DETAIL
+======================================= -->
+<p-dialog [(visible)]="state" closeOnEscape="true" closable="true" header="Detalle de Cita Médica" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw'}" styleClass="p-fluid dialog-responsive custom-header">
+
+    <!-- BODY -->
+    <ng-template pTemplate="content">
+        <div class="card shadow-3 mt-3">
+            <h5 class="text-center">
+                CAJA NACIONAL DE SALUD - {{asegurado.ubicacion}} <br>
+                {{asegurado.centroMedico}} <br>
+                {{consultorio.consultorio}}
+
+            </h5>
+            <hr>
+            <div class="grid">
+                <div class="col-12 sm:col-4">
+                    <div class="text-center py-5">
+                        <i class="pi pi-check-circle" style="font-size: 100px;color: #008080;"></i>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-8">
+                    <p>
+                        <span class="prefijoRow">Fecha de Atención: </span>{{reserva.fechaReserva}}<br>
+                        <span class="prefijoRow">Hora de Atención: </span>{{reserva.hora.inicioDetalle}} a
+                        {{reserva.hora.finDetalle}} <br>
+                        <span class="prefijoRow">Paciente: </span>{{reserva.asegurado.nombres}}
+                        {{reserva.asegurado.paterno}}
+                        <br>
+                        <span class="prefijoRow">Número de Ficha: </span>{{reserva.hora.numero}} <br>
+                        <span class="prefijoRow">Médico: </span>{{reserva.medicoUsuario.nombres}} <br>
+                        <span class="prefijoRow">Estado: </span>{{reserva.estadoReserva.descripcion}} <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+        <hr>
+        <div class="custom-footer">
+            <p-button pRipple label="Cerrar" icon="pi pi-times" [text]="true" [raised]="true" severity="warning"
+                (click)="cancel()" />
+        </div>
+    </ng-template>
+</p-dialog>

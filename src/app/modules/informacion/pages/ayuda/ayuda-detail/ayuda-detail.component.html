@@ -1,0 +1,23 @@
+<!-- VIEW AYUDA-DETAIL
+======================================= -->
+<p-dialog [(visible)]="state" closeOnEscape="true" closable="true" header="Detalle de Ayuda" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw'}" styleClass="p-fluid dialog-responsive custom-header">
+
+    <!-- BODY -->
+    <ng-template pTemplate="content">
+        <div class="card shadow-3 mt-3">
+            <h5 class="prefijoRow">Tema: {{ayuda}}</h5>
+            <hr>
+            <h2 class="p-5">En construcción...!!</h2>
+        </div>
+    </ng-template>
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+        <hr>
+        <div class="custom-footer">
+            <p-button pRipple label="Cerrar" icon="pi pi-times" [text]="true" [raised]="true" severity="warning"
+                (click)="close()" />
+        </div>
+    </ng-template>
+</p-dialog>

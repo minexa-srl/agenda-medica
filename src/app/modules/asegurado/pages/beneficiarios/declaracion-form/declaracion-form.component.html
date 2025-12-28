@@ -1,0 +1,27 @@
+<p class="m-0">
+  Toda información registrada y modificada a través de este sistema informático tendrá carácter de
+  compromiso. Por lo que, para evitar contratiempos posteriores, le sugerimos registrar los datos
+  con el cuidado necesario, tal cual se muestran en los formularios de asegurado. Gracias
+</p>
+<br />
+<ng-template pTemplate="footer">
+  <p-button
+    icon="pi pi-check"
+    (click)="save()"
+    label="Confirmar"
+    *ngIf="controlSave"
+    class="p-button-text">
+  </p-button>
+</ng-template>
+<p-toast position="top-center" key="confirm" (onClose)="onReject()" [baseZIndex]="10000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column align-items-start" style="flex: 1">
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold text-900"> {{ tituloMensaje }} </span>
+      </div>
+      <div class="font-medium text-lg my-3 text-900">
+        {{ message.summary }}
+      </div>
+    </div>
+  </ng-template>
+</p-toast>

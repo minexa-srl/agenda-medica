@@ -1,0 +1,11 @@
+:host ::ng-deep p-card.card-click .p-card {
+  transition: transform .25s ease, box-shadow .25s ease, border .25s ease;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+:host ::ng-deep p-card.card-click .p-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}

@@ -1,0 +1,125 @@
+<form [formGroup]="dataForm" (ngSubmit)="saveData()">
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-12 lg:col-6 xl:col-6 field col">
+      <label for="nroForm">Nro. Form. AVC-04 o AVC-06</label>
+      <input id="nroForm" type="text" formControlName="nroForm"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
+    <div class="field col-6 md:col-12 lg:col-6 xl:col-6 field col">
+      <label for="tipoAfiliacion">Tipo Beneficiario</label>
+      <div style="width: 100%">
+        <p-dropdown [options]="tipoBeneficiario" placeholder="Seleccione un tipo beneficiario"
+          formControlName="tipoAfiliacion" id="tipoAfiliacion" class="w-full" optionLabel="descripcion"
+          optionValue="codigo" (onChange)="selectTipoAfiliacion($event.value)">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="turno">Documento Identidad</label>
+      <input pInputText type="text"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        formControlName="documentoIdentidad" tabindex="0" />
+    </div>
+    <div class="field col-3 md:col-3 lg:col-3 xl:col-3 field col">
+      <label class="label-form" for="turno">Complemento</label>
+      <input pInputText type="text"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        formControlName="complemento" tabindex="0" maxlength="2" />
+    </div>
+    <div class="field col-3 md:col-3 lg:col-3 xl:col-3 field col">
+      <label class="label-form" for="extension">Extensión</label>
+      <p-dropdown [options]="extensiones" placeholder="Seleccione Extensión" formControlName="extension" id="extension"
+        class="w-full" optionLabel="abreviatura" optionValue="abreviatura">
+      </p-dropdown>
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="turno">Primer Apellido</label>
+      <input pInputText type="text"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        formControlName="primerApellido" tabindex="0" />
+    </div>
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="turno">Segundo Apellido</label>
+      <input pInputText type="text"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        formControlName="segundoApellido" tabindex="0" />
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="turno">Nombres</label>
+      <input pInputText type="text"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        formControlName="nombres" tabindex="0" />
+    </div>
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="fechaNacimiento">Fecha Nacimiento</label>
+      <br />
+      <p-calendar formControlName="fechaNacimiento" dateFormat="dd-mm-yy" [showIcon]="true" id="fechaNacimiento"
+        [disabledDays]="[]" [showIcon]="true" icon="pi pi-calendar" class="w-full">
+      </p-calendar>
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="departamento">Lugar de Nacimiento</label>
+      <div>
+        <p-dropdown [options]="departamento" placeholder="Seleccione lugar nacimiento" formControlName="lugarNacimiento"
+          id="departamento" class="w-full" optionLabel="descripcion" optionValue="zonificacionId">
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="genero">Género</label>
+      <div>
+        <p-dropdown [options]="genero" placeholder="Seleccione género" formControlName="genero" id="genero"
+          class="w-full" optionLabel="label" optionValue="value" (onChange)="selectGenero($event.value)">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col">
+      <label class="label-form" for="estadoCivil">Estado Civil</label>
+      <div>
+        <p-dropdown [options]="estadoCivil" placeholder="Seleccione estado civil" formControlName="estadoCivil"
+          id="estadoCivil" class="w-full" optionLabel="descripcion" optionValue="codigo">
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="field col-6 md:col-6 lg:col-6 xl:col-6 field col" *ngIf="dropHijos">
+      <label class="label-form" for="DenominacionHijo">Código Beneficiario</label>
+      <div>
+        <p-dropdown [options]="denominacion" placeholder="Seleccione código" formControlName="denominacionHijo"
+          id="denominacionHijo" class="w-full" optionLabel="abreviatura" optionValue="codigo">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <p-divider></p-divider>
+</form>
+<div class="grid">
+  <div class="col-12 md:col-6 lg:col-8 xl:col-8"></div>
+  <div class="col-12 md:col-6 lg:col-4 xl:col-4">
+    <p-button class="p-button-success flex flex-column" icon="pi pi-save" label="Guardar" [disabled]="!dataForm.valid"
+      (click)="saveData()">
+    </p-button>
+  </div>
+</div>
+<p-toast position="top-center" key="confirm" (onClose)="onRejectVerify()" [baseZIndex]="10000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column align-items-start" style="flex: 1">
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold text-900"> {{ tituloMensaje }} </span>
+      </div>
+      <div class="font-medium text-lg my-3 text-900">
+        {{ message.summary }}
+      </div>
+      <p-button size="small" label="Aceptar" (click)="onConfirmVerify()" />
+    </div>
+  </ng-template>
+</p-toast>

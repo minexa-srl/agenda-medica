@@ -1,0 +1,24 @@
+<!-- VIEW RESERVA-DETAIL
+======================================= -->
+<p-dialog [(visible)]="state" closeOnEscape="true" closable="true" header="Cita Reservada" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw', height:'70vh', 'z-index': '1050'}"
+    styleClass="p-fluid dialog-responsive custom-header">
+
+    <!-- BODY -->
+    <ng-template pTemplate="content">
+        <ng-container *ngIf="reportPdf">
+            <div class="card shadow-3 mt-5">
+                <iframe [src]="reportPdf" width="100%" height="600px"></iframe>
+            </div>
+        </ng-container>
+    </ng-template>
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+        <hr>
+        <div class="custom-footer">
+            <p-button pRipple label="Cerrar" icon="pi pi-times" [text]="true" [raised]="true" severity="warning"
+                (click)="cancel()" />
+        </div>
+    </ng-template>
+</p-dialog>

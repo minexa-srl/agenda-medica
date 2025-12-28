@@ -1,0 +1,78 @@
+/* VIEW DIALOG
+-------------------------------------- */
+.custom-header .p-dialog-header {
+    background: rgb(0, 121, 107);
+    border-radius: 12px 12px 0 0;
+    color: rgb(227, 227, 227);
+    padding: 5px 10px 5px 15px;
+    min-height: 45px;
+}
+
+.custom-footer {
+    /* background-color: #e6ebea !important; */
+    background-color: #fff !important;
+    border-radius: 10px;
+    width: 100%;
+    padding: 5px 10px;
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+.dialog-responsive {
+    width: 50vw !important;
+}
+
+@media screen and (max-width: 768px) {
+    .dialog-responsive {
+        width: 100vw !important;
+        left: 0 !important;
+        margin: 20px !important;
+        border-radius: 0 !important;
+    }
+}
+
+/* UTILITY
+-------------------------------------- */
+
+/* LOADING */
+.loader {
+    font-size: 40px;
+    font-weight: 600;
+    display: inline-block;
+    letter-spacing: 2px;
+    font-family: 'Calibri', Times, serif;
+    color: #008080;
+    box-sizing: border-box;
+    animation: spotlight 1s linear infinite alternate;
+}
+
+.saving {
+    display: block;
+    position: relative;
+    height: 10px;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+}
+
+.saving:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #dcdcdc;
+    animation: 2s prog ease-in infinite;
+}
+
+/* ANIMACIÓN DE GUARDADO */
+@keyframes prog {
+    to {
+        width: 100%;
+    }
+}
+
+.prefijoRow {
+    color: #00aaaa;
+}
