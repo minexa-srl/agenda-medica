@@ -4,7 +4,6 @@ import { OAuthErrorEvent, OAuthService } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { authConfig } from '../config/auth-config';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -50,7 +49,7 @@ export class AuthService {
       .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
       .subscribe(() => this.navigateToLoginPage());
 
-    // ⚡ Comentar o eliminar si no quieres refresh automático
+    // ⚡ Comentar si no quieres refresh automático
     // this.oauthService.setupAutomaticSilentRefresh();
   }
 
@@ -61,14 +60,13 @@ export class AuthService {
   public get idToken() { return this.oauthService.getIdToken(); }
   public get logoutUrl() { return this.oauthService.logoutUrl; }
 
-  // ⚡ Método principal de login inicial adaptado a endpoints fijos
+  // Inicialización
   public runInitialLoginSequence(): Promise<void> {
     return this.oauthService.tryLoginCodeFlow().then(() => {
       this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
       this.isDoneLoadingSubject$.next(true);
-
       if (!this.oauthService.hasValidAccessToken()) {
-        this.oauthService.initCodeFlow(); // Redirige al login si no hay token
+        this.oauthService.initCodeFlow();
       }
     }).catch(err => {
       console.error('Error in initial login sequence:', err);
@@ -76,7 +74,7 @@ export class AuthService {
     });
   }
 
-  // Métodos de login/logout
+  // Métodos login/logout
   public login(targetUrl?: string) {
     this.oauthService.initLoginFlow(targetUrl || this.router.url);
   }
