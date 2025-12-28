@@ -1,32 +1,32 @@
 export const environment = {
-  production: true,
-  debug: false,
+  //#region Configuracion Proyecto
+  production: true, // Cambiar a true en producción
+  debug: false, // Desactívalo en producción para evitar sobrecarga de la consola
   api: 'https://api-desarrollo.cns.gob.bo',
   apiVersion: 'v1',
   apiAuth: 'https://api-desarrollo.cns.gob.bo/auth',
-  staticMenu: false,
-
+  staticMenu: false, // Si es solo para desarrollo, asegúrate de desactivar esta funcionalidad en producción
+  //#endregion
+  //#region Configuracion APIS
   urlApi: 'https://api-desarrollo.cns.gob.bo/erpcns/v1',
-  urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/api/vg/v1',
+  // urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/Vigencia/v1', (FALLA)
+  urlApiVigencia: 'https://api-desarrollo.cns.gob.bo/api/vg/v1', // (FUNCIONA)
   urlApiCitasMedicas: 'https://api-desarrollo.cns.gob.bo/CitasMedicas/v1',
-  citaMedicaApi: 'http://localhost:5002', // solo desarrollo
-
-  // 🔑 Configuración OAuth2
+  citaMedicaApi: 'http://localhost:5002',
+  //#endregion
+  //#region Configuración de OAuth
   issuer: 'https://auth-desarrollo.cns.gob.bo',
   clientId: 'test_dev',
   responseType: 'code',
-
-  // ⚡ Aquí usamos un redirectUri que ya es válido en el auth
-  redirectUri: 'https://auth-desarrollo.cns.gob.bo/oauth2/callback',
-  silentRefreshRedirectUri: 'https://auth-desarrollo.cns.gob.bo/oauth2/callback',
-
-  postLogoutRedirectUri: '/login',
+  redirectUri: '/auth-callback',
+  silentRefreshRedirectUri: '/silent-refresh.html',
   scope: 'openid profile offline_access API_Example api.read adminClient_api',
-
+  postLogoutRedirectUri: '/login',
   useSilentRefresh: false,
   sessionChecksEnabled: false,
   showDebugInformation: false,
   clearHashAfterLogin: false,
   nonceStateSeparator: 'semicolon',
   theme: 'layout-cns-nacional',
-};
+  //#endregion
+}

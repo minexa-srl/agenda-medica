@@ -1,97 +1,121 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { OAuthErrorEvent, OAuthService } from 'angular-oauth2-oidc';
-import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
-import { authConfig } from '../config/auth-config';
+import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
+import { OAuthErrorEvent, OAuthService } from 'angular-oauth2-oidc'
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
-  public isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false);
-  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
-  public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
+  public isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false)
+  public isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false)
+  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable()
+  public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable()
 
   public canActivateProtectedRoutes$: Observable<boolean> = combineLatest([
     this.isAuthenticated$,
     this.isDoneLoading$,
-  ]).pipe(map(values => values.every(b => b)));
+  ]).pipe(map(values => values.every(b => b)))
 
-  constructor(private oauthService: OAuthService, private router: Router) {
-    this.oauthService.configure(authConfig);
-
-    // Eventos para debugging
+  constructor(
+    private oauthService: OAuthService,
+    private router: Router,
+  ) {
+    // Useful for debugging:
     this.oauthService.events.subscribe(event => {
       if (event instanceof OAuthErrorEvent) {
-        console.error('OAuthErrorEvent Object:', event);
+        console.error('OAuthErrorEvent Object:', event)
       } else {
-        console.warn('OAuthEvent Object:', event);
+        console.warn('OAuthEvent Object:', event)
       }
-    });
+    })
 
     window.addEventListener('storage', event => {
-      if (event.key !== 'access_token' && event.key !== null) return;
-      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
-      if (!this.oauthService.hasValidAccessToken()) this.navigateToLoginPage();
-    });
+      // The `key` is `null` if the event was caused by `.clear()`
+      if (event.key !== 'access_token' && event.key !== null) {
+        return
+      }
+
+      console.warn(
+        'Noticed changes to access_token (most likely from another tab), updating isAuthenticated',
+      )
+      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken())
+
+      if (!this.oauthService.hasValidAccessToken()) {
+        this.navigateToLoginPage()
+      }
+    })
 
     this.oauthService.events.subscribe(() => {
-      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
-    });
-    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken())
+    })
+    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken())
 
     this.oauthService.events
       .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(() => this.oauthService.loadUserProfile());
+      .subscribe(() => this.oauthService.loadUserProfile())
 
     this.oauthService.events
       .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
-      .subscribe(() => this.navigateToLoginPage());
+      .subscribe(() => this.navigateToLoginPage())
 
-    // ⚡ Comentar si no quieres refresh automático
-    // this.oauthService.setupAutomaticSilentRefresh();
+    this.oauthService.setupAutomaticSilentRefresh() // Simplemente comentá o eliminá esa línea si no querés que el refresh token esté habilitado.
   }
 
-  // Getters
-  public get accessToken() { return this.oauthService.getAccessToken(); }
-  public get refreshToken() { return this.oauthService.getRefreshToken(); }
-  public get identityClaims() { return this.oauthService.getIdentityClaims(); }
-  public get idToken() { return this.oauthService.getIdToken(); }
-  public get logoutUrl() { return this.oauthService.logoutUrl; }
+  public get accessToken() {
+    return this.oauthService.getAccessToken()
+  }
 
-  // Inicialización
+  public get refreshToken() {
+    return this.oauthService.getRefreshToken()
+  }
+
+  public get identityClaims() {
+    return this.oauthService.getIdentityClaims()
+  }
+
+  public get idToken() {
+    return this.oauthService.getIdToken()
+  }
+
+  public get logoutUrl() {
+    return this.oauthService.logoutUrl
+  }
+
   public runInitialLoginSequence(): Promise<void> {
-    return this.oauthService.tryLoginCodeFlow().then(() => {
-      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
-      this.isDoneLoadingSubject$.next(true);
-      if (!this.oauthService.hasValidAccessToken()) {
-        this.oauthService.initCodeFlow();
-      }
-    }).catch(err => {
-      console.error('Error in initial login sequence:', err);
-      this.isDoneLoadingSubject$.next(true);
-    });
+    return this.oauthService
+      .loadDiscoveryDocumentAndTryLogin()
+      .then(() => {
+        this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken())
+        this.isDoneLoadingSubject$.next(true)
+      })
+      .catch(err => {
+        console.error('Error loading discovery document or trying login:', err)
+        this.isDoneLoadingSubject$.next(true)
+      })
   }
 
-  // Métodos login/logout
   public login(targetUrl?: string) {
-    this.oauthService.initLoginFlow(targetUrl || this.router.url);
+    // Note: before version 9.1.0 of the library you needed to
+    // call encodeURIComponent on the argument to the method.
+    this.oauthService.initLoginFlow(targetUrl || this.router.url)
   }
 
   public logout() {
-    this.oauthService.logOut();
+    // this.oauthService.revokeTokenAndLogout();
+    this.oauthService.logOut()
   }
 
   public refresh() {
-    this.oauthService.silentRefresh();
+    this.oauthService.silentRefresh()
   }
 
   public hasValidToken() {
-    return this.oauthService.hasValidAccessToken();
+    return this.oauthService.hasValidAccessToken()
   }
 
   private navigateToLoginPage() {
-    this.router.navigateByUrl('/should-login');
+    // TODO: Remember current URL
+    this.router.navigateByUrl('/should-login')
   }
 }
